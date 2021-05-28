@@ -12,43 +12,43 @@ class Player:
         self._date_of_birth = datetime.strptime(date_of_birth, "%d/%m/%Y")
         # enregister sous format date
         self._gender = gender
-        self.ranking = 0
+        self._ranking = 0
         print("Le joueur suivant a été ajouté :\n")
         print(f'''First Name: {self._first_name}       Last Name: {self._last_name}
-        \nDate of birth: {self._date_of_birth}   Gender: {self._gender}
-        \nRanking: {self.ranking}
+        Date of birth: {self._date_of_birth}   Gender: {self._gender}
+        Ranking: {self._ranking}
               ''')
         # bonne pratique pour des attributs non variables : @property
 
         @property
         def first_name(self):
-            return self.first_name
+            return self._first_name
 
         @property
         def last_name(self):
-            return self.last_name
+            return self._last_name
 
         @property
         def date_of_birth(self):
-            return self.date_of_birth
+            return self._date_of_birth
 
         @property
         def gender(self):
-            return self.gender
+            return self._gender
 
         @property
-        def ranking_getter(self):
-            return self.ranking
+        def ranking(self):
+            return self._ranking
 
-        @property
-        def ranking_setter(self, new_ranking):
-            try:
-                if self.ranking >= 0:
-                    self.ranking = new_ranking
+        @ranking.setter
+        def ranking(self, new_ranking):
+            if isinstance(self._ranking, int):
+                if self._ranking >= 0:
+                    self._ranking = new_ranking
                 else:
-                    raise ValueError
-            except ValueError:
-                print("Ranking needs to be a positive number !")
+                    raise ValueError("Needs to be a positive number !")
+            else:
+                print("TypeError: Needs to be an integer")
 
 
 class Round:
@@ -60,36 +60,41 @@ class Round:
         self._matchs = []
         self._players = []
         self._resultats = []
-        self._match = {self._players, self._resultats}
+        self._match = (self._players, self._resultats)
+        # faire un tuple pour essayer de hasher?
         print("Round 1 !\n")
 
         @property
-        def matchs_getter(self):
-            return self.matchs
+        def matchs(self):
+            return self._matchs
 
         @property
-        def players_getter(self):
-            return self.players
+        def players(self):
+            return self._players
 
         @property
-        def resultats_getter(self):
-            return self.resultats
+        def resultats(self):
+            return self._resultats
 
         @property
-        def match_getter(self):
-            return self.match
+        def match(self):
+            return self._match
 
-        @property
-        def resultats_setter(self, new_resultats):
-            self.resultats = new_resultats
+        @matchs.setter
+        def matchs(self, new_matchs):
+            self._matchs = new_matchs
 
-        @property
-        def players_setter(self, new_players):
-            self.playesr = new_players
+        @resultats.setter
+        def resultats(self, new_resultats):
+            self._resultats = new_resultats
 
-        @property
-        def match_setter(self, new_match):
-            self.match = new_match
+        @players.setter
+        def players(self, new_players):
+            self._playesr = new_players
+
+        @match.setter
+        def match(self, new_match):
+            self._match = new_match
 
 
 class Tournament:
@@ -107,39 +112,39 @@ class Tournament:
         print("Le tournoi a débuté !\n")
 
         @property
-        def name_getter(self):
+        def name(self):
             return self._name
 
         @property
-        def place_getter(self):
+        def place(self):
             return self._place
 
         @property
-        def date_getter(self):
+        def tour_date(self):
             return self._tour_date
 
         @property
-        def rounds_getter(self):
+        def rounds(self):
             return self._rounds
 
         @property
-        def players_getter(self):
+        def players(self):
             return self._players
 
         @property
-        def time_control_getter(self):
+        def time_control(self):
             return self._time_control
 
-        @property
-        def rounds_setter(self, new_rounds):
+        @rounds.setter
+        def rounds(self, new_rounds):
             self._rounds = new_rounds
 
-        @property
-        def players_setter(self, players):
+        @players.setter
+        def players(self, players):
             self._players = players
 
-        @property
-        def time_control_setter(self):
+        @time_control.setter
+        def time_control(self):
             choice = input("What kind of game would you like to play ?")
             print("1 = Bullet / 2 = Blitz / 3 = Quick Move")
             if choice == 1:
