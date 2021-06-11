@@ -9,3 +9,5 @@ class ViewTournament:
             n'utiliser que des attributs présents dans un tournament
             on passe une instance d'objet en paramètre et non la classe
         """
+    def show_players():
+        pass

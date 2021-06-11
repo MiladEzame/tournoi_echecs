@@ -9,15 +9,17 @@ class Player:
         """
         self._first_name = ""
         self._last_name = ""
-        self._date_of_birth = datetime.strptime("", "%d/%m/%Y")
+        self._date_birth = datetime.strptime(self._date_birth, "%d/%m/%Y")
         # enregister sous format date
         self._gender = ""
         self._ranking = 0
-        print("Le joueur suivant a été ajouté :\n")
-        print(f'''First Name: {self._first_name}       Last Name: {self._last_name}
+        """print("Le joueur suivant a été ajouté :\n")
+        print(f'''First Name: {self._first_name}
+        Last Name: {self._last_name}
         Date of birth: {self._date_of_birth}   Gender: {self._gender}
         Ranking: {self._ranking}
               ''')
+        """
         # bonne pratique pour des attributs non variables : @property
 
     @property
@@ -29,8 +31,8 @@ class Player:
         return self._last_name
 
     @property
-    def date_of_birth(self):
-        return self._date_of_birth
+    def date_birth(self):
+        return self._date_birth
 
     @property
     def gender(self):
@@ -62,7 +64,6 @@ class Round:
         self._resultats = []
         self._match = (self._players, self._resultats)
         # faire un tuple pour essayer de hasher?
-        print("Round 1 !\n")
 
     @property
     def matchs(self):
@@ -104,12 +105,11 @@ class Tournament:
         """
         self._name = ""
         self._place = ""
-        self._tour_date = datetime.strptime("", "%d/%m/%Y")
+        self._tour_date = ""
         self._number_of_rounds = 4
         self._rounds = []
         self._players = []
         self._time_control = ""
-        print("Le tournoi a débuté !\n")
 
     @property
     def name(self):
@@ -121,7 +121,7 @@ class Tournament:
 
     @property
     def tour_date(self):
-        return self._tour_date
+        return datetime.strptime(self._tour_date, "%d/%m/%Y")
 
     @property
     def rounds(self):

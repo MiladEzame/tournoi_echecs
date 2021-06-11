@@ -1,11 +1,26 @@
-from datetime import datetime
 from model import Player, Tournament
 
 
 class Controller:
     def __init__(self, tournament):
-        self.all_players = []
-        self.tournament = tournament
+        self._all_players = []
+        self._tournament = tournament
+
+    @property
+    def all_players(self):
+        return self._all_players
+
+    @property
+    def tournament(self):
+        return self._tournament
+
+    @all_players.setter
+    def all_players(self, new_players):
+        self._all_players = new_players
+
+    @tournament.setter
+    def tournament(self, new_tournament):
+        self._tournament = new_tournament
 
     def create_new_tournament(self, tournament):
         tournament = Tournament()
