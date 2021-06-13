@@ -1,13 +1,19 @@
 class ViewTournament:
 
-    def __init__(self, tournament):
-        """
-            Constructor, creating a new view
-            prend un tournament en tant que parametre et va avoir uniquement
-            des méthodes d'affichage de mon tournament
-            affiche le rendu visuel de l'objet passé en paramètre
-            n'utiliser que des attributs présents dans un tournament
-            on passe une instance d'objet en paramètre et non la classe
-        """
-    def show_players():
-        pass
+    def tournament_info(self, tournament):
+        tournament.name = input("What is the name of the tournament?")
+        tournament.place = input("At what place ?")
+        tournament.tour_date = input("At what date ?")
+
+
+class ViewPlayers:
+
+    def player_info(self, player):
+        self.players.first_name = input(str("Player's first name ?"))
+        self.players.last_name = input(str("Player's last name ?"))
+        self.players.date_of_birth = input("Date of birth ?")
+        self.players.gender = input(str("Gender ?"))
+
+    def show_players(self, players):
+        for self.players in range(1, 9):
+            print(self.players)

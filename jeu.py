@@ -1,8 +1,9 @@
-from model import Tournament
-# from model import Match, Player, Tournament, Round
-from controller import Controller
+from model import Tournament, Player
+
 
 if __name__ == "__main__":
+    player1 = Player()
+    player1.first_name("Ezame")
+    print(player1.first_name)
     tournament = Tournament()
-    controller = Controller(tournament)
-    controller.create_new_tournament(tournament)
+    print(tournament.name)

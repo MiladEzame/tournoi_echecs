@@ -9,7 +9,7 @@ class Player:
         """
         self._first_name = ""
         self._last_name = ""
-        self._date_birth = datetime.strptime(self._date_birth, "%d/%m/%Y")
+        self._date_birth = datetime.datetime("%d/%m/%Y")
         # enregister sous format date
         self._gender = ""
         self._ranking = 0
@@ -134,6 +134,14 @@ class Tournament:
     @property
     def time_control(self):
         return self._time_control
+
+    @name.setter
+    def name(self, new_name):
+        self._name = new_name
+
+    @place.setter
+    def place(self, new_place):
+        self._place = new_place
 
     @rounds.setter
     def rounds(self, new_rounds):
