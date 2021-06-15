@@ -3,9 +3,9 @@ from model import Player, Tournament
 
 
 class System:
-    def __init__(self, tournament):
+    def __init__(self):
         self._all_players = []
-        self._tournament = tournament
+        self._tournament = ""
 
     @property
     def all_players(self):
@@ -25,8 +25,12 @@ class System:
 
     def create_new_tournament(self, tournament):
         tournament = Tournament()
-        ViewTournament.tournament_info()
+        ViewTournament.tournament_input(self, tournament)
         return tournament
+
+    def view_tournament_info(self, tournament):
+        tournament = Tournament()
+        ViewTournament.view_tournament_info(self, tournament)
 
     def create_players(self):
         for self.players in range(1, 9):

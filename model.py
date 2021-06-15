@@ -3,13 +3,13 @@ from datetime import datetime
 
 class Player:
 
-    def __init__(self):
+    def __init__(self, first_name, last_name, date_birth):
         """
             Constructor, creating a new player
         """
-        self._first_name = ""
-        self._last_name = ""
-        self._date_birth = datetime.datetime("%d/%m/%Y")
+        self._first_name = first_name
+        self._last_name = last_name
+        self._date_birth = datetime.strptime(date_birth, ("%d/%m/%Y"))
         # enregister sous format date
         self._gender = ""
         self._ranking = 0
@@ -105,7 +105,9 @@ class Tournament:
         """
         self._name = ""
         self._place = ""
-        self._tour_date = ""
+        self._tour_date = "20/01/1994"
+        # comment ajouter une date via un input ? comment l'initialiser ?
+        # Paramètre obligatoire ?
         self._number_of_rounds = 4
         self._rounds = []
         self._players = []
@@ -146,6 +148,10 @@ class Tournament:
     @rounds.setter
     def rounds(self, new_rounds):
         self._rounds = new_rounds
+
+    @tour_date.setter
+    def tour_date(self, new_tour_date):
+        self._tour_date = new_tour_date
 
     @players.setter
     def players(self, players):

@@ -1,9 +1,19 @@
 class ViewTournament:
 
-    def tournament_info(self, tournament):
+    def tournament_input(self, tournament):
         tournament.name = input("What is the name of the tournament?")
         tournament.place = input("At what place ?")
         tournament.tour_date = input("At what date ?")
+        """
+        print(tournament.name)
+        print(tournament.place)
+        print(tournament.tour_date)
+        """
+
+    def view_tournament_info(self, tournament):
+        print(tournament.name)
+        print(tournament.place)
+        print(tournament.tour_date)
 
 
 class ViewPlayers:
