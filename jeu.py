@@ -1,5 +1,5 @@
 from model import Player
-from controller import System
+from controller import User_Management
 
 if __name__ == "__main__":
     player1 = Player("Ezame", "Milad", "20/01/1993")
@@ -7,5 +7,5 @@ if __name__ == "__main__":
     player1.ranking = 14
     print(player1.ranking)
 
-    gestion = System()
-    gestion.create_new_tournament("Test")
+    user = User_Management()
+    user.create_new_tournament("Test")

@@ -27,3 +27,15 @@ class ViewPlayers:
     def show_players(self, players):
         for self.players in range(1, 9):
             print(self.players)
+
+
+class ViewRanking:
+    pass
+
+
+class ViewPairs:
+    pass
+
+
+class ViewReports:
+    pass
