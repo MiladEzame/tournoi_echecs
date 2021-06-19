@@ -1,29 +1,29 @@
-from views import ViewTournament
-from model import Player, Tournament
+from views import ViewPlayers, ViewTournament
+from model import Tournament
 
 
 class UserManagement:
     def __init__(self):
-        self._all_players = []
+        self._player = []
 
     @property
     def all_players(self):
-        return self._all_players
+        return self._player
 
     @all_players.setter
-    def all_players(self, new_players):
-        self._all_players = new_players
+    def player(self, new_players):
+        self._player = new_players
 
     def create_players(self):
-        for self.players in range(1, 9):
-            self.players = Player()
-            self.all_players.append(self.players)
-        return self.all_players
+        ViewPlayers.player_info(self._player)
+
+    def view_players(self):
+        ViewPlayers.view_players_info(self._player)
 
 
 class TournamentManagement:
     def __init__(self):
-        self._tournament = ""
+        self._tournament = Tournament()
 
     @property
     def tournament(self):
@@ -33,14 +33,11 @@ class TournamentManagement:
     def tournament(self, new_tournament):
         self._tournament = new_tournament
 
-    def create_new_tournament(self, tournament):
-        tournament = Tournament()
-        ViewTournament.tournament_input(self, tournament)
-        return tournament
+    def create_new_tournament(self):
+        ViewTournament.tournament_input(self.tournament)
 
-    def view_tournament_info(self, tournament):
-        tournament = Tournament()
-        ViewTournament.view_tournament_info(self, tournament)
+    def view_tournament_info(self):
+        ViewTournament.view_tournament_info(self.tournament)
 
 
 class ScoreManagement:

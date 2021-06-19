@@ -13,13 +13,6 @@ class Player:
         # enregister sous format date
         self._gender = ""
         self._ranking = 0
-        """print("Le joueur suivant a été ajouté :\n")
-        print(f'''First Name: {self._first_name}
-        Last Name: {self._last_name}
-        Date of birth: {self._date_of_birth}   Gender: {self._gender}
-        Ranking: {self._ranking}
-              ''')
-        """
         # bonne pratique pour des attributs non variables : @property
 
     @property
@@ -41,6 +34,22 @@ class Player:
     @property
     def ranking(self):
         return self._ranking
+
+    @first_name.setter
+    def first_name(self, new_first_name):
+        self._first_name = new_first_name
+
+    @last_name.setter
+    def last_name(self, new_last_name):
+        self._last_name = new_last_name
+
+    @date_birth.setter
+    def date_birth(self, new_date_birth):
+        self._date_birth = new_date_birth
+
+    @gender.setter
+    def gender(self, new_gender):
+        self._gender = new_gender
 
     @ranking.setter
     def ranking(self, new_ranking):
