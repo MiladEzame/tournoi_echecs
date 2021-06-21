@@ -1,14 +1,9 @@
-from model import Player
 from controller import UserManagement
 
-if __name__ == "__main__":
-    player1 = Player("Ezame", "Milad", "20/01/1993")
-    print(player1.ranking)
-    player1.ranking = 14
-    print(player1.ranking)
 
+if __name__ == "__main__":
     new_players = UserManagement()
-    new_players.create_players()
+    all_players = new_players.create_players()
     new_players.view_players()
     """
     user = TournamentManagement()
