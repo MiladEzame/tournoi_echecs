@@ -9,7 +9,7 @@ class Player:
         """
         self._first_name = first_name
         self._last_name = last_name
-        self._date_birth = datetime.strptime(date_birth, ("%d/%m/%Y"))
+        self._date_birth = date_birth
         # enregister sous format date
         self._gender = ""
         self._ranking = 0
