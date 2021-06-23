@@ -41,12 +41,11 @@ class ViewPlayers:
         i = 0
         new_players = []
         for lists in players:
-            for elem in lists:
-                all_players = Player(elem[0], elem[1], elem[2])
-                all_players.gender = elem[3]
-                all_players.ranking = i
-                new_players.append(all_players)
-                i = i + 1
+            all_players = Player(lists[0], lists[1], lists[2])
+            all_players.gender = lists[3]
+            all_players.ranking = i
+            new_players.append(all_players)
+            i = i + 1
         return new_players
 
     @classmethod
