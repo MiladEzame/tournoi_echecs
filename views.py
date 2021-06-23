@@ -1,6 +1,3 @@
-from model import Player
-
-
 class ViewTournament:
 
     @classmethod
@@ -20,33 +17,11 @@ class ViewTournament:
 class ViewPlayers:
 
     @classmethod
-    def player_info(self, players):
-        i = 1
-        for new_player in range(1, 5):
-            first_name = input(str("Player's first name ?"))
-            last_name = input(str("Player's last name ?"))
-            date_birth = input("Date of birth ?")
-            gender = input(str("Gender ?"))
-            new_player = Player(first_name, last_name,
-                                date_birth)
-            new_player.gender = gender
-            new_player.ranking = i
-            i = i + 1
-            players.append(new_player)
-        return players
-
-    def player_from_file(self):
-        players = [line.split(';') for line in open("random_players.txt")]
-        # print(players)
-        i = 0
-        new_players = []
-        for lists in players:
-            all_players = Player(lists[0], lists[1], lists[2])
-            all_players.gender = lists[3]
-            all_players.ranking = i
-            new_players.append(all_players)
-            i = i + 1
-        return new_players
+    def player_info(self, player):
+        player.first_name = input(str("Player's first name ?"))
+        player.last_name = input(str("Player's last name ?"))
+        player.date_birth = input("Date of birth ?")
+        player.gender = input(str("Gender ?"))
 
     @classmethod
     def view_players_info(self, players):

@@ -9,7 +9,7 @@ class Player:
         """
         self._first_name = first_name
         self._last_name = last_name
-        self._date_birth = date_birth
+        self._date_birth = datetime.strptime(date_birth, "%d/%m/%Y")
         # enregister sous format date
         self._gender = ""
         self._ranking = 0
@@ -50,6 +50,10 @@ class Player:
     @gender.setter
     def gender(self, new_gender):
         self._gender = new_gender
+
+    def __repr__(self):
+        return repr("""Player : {} {} - Ranking : {} """
+                    .format(self.first_name, self.last_name, self.ranking))
 
     @ranking.setter
     def ranking(self, new_ranking):
