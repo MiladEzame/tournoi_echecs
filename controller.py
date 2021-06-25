@@ -1,5 +1,8 @@
 from views import ViewPlayers, ViewTournament
 from model import Tournament, Player
+from tinydb import TinyDB
+db = TinyDB("db.json")
+players_table = db.table("players")
 
 
 class UserManagement:
@@ -26,6 +29,8 @@ class UserManagement:
 
     def create_players(self):
         i = 1
+        save = SaveState()
+        players_table.truncate()
         for new_player in range(1, 3):
             ViewPlayers.player_info(self.player)
             new_player = Player(self.player.first_name, self.player.last_name,
@@ -34,10 +39,20 @@ class UserManagement:
             new_player.ranking = i
             i = i + 1
             self.players.append(new_player)
+            serialized_player = {
+                "first_name": new_player.first_name,
+                "last_name": new_player.last_name,
+                "date_birth": new_player.date_birth,
+                "gender": new_player.gender,
+                "ranking": new_player.ranking
+            }
+            save.save_player(serialized_player)
         PairManagement.generate_pairs(self, self._players)
 
     def view_players(self):
-        ViewPlayers.view_players_info(self._players)
+        charge = ChargeState()
+        charge.charge_player()
+        # ViewPlayers.view_players_info(self._players)
 
     def player_from_file(self):
         players = [line.split(';') for line in open("random_players.txt")]
@@ -90,8 +105,8 @@ class PairManagement:
         middle_index = lenght//2
         first_half = all_players[:middle_index]
         second_half = all_players[middle_index:]
-        print("Players ranked from 1 to 4 : {}".format(first_half))
-        print("Players ranked from 5 to 8 : {}".format(second_half))
+        print("Players on first group : {}".format(first_half))
+        print("Players on second group : {}".format(second_half))
 
     def sort_pairs(self):
         pass
@@ -102,8 +117,10 @@ class ScoreManagement:
 
 
 class SaveState:
-    pass
+    def save_player(self, serialized_player):
+        players_table.insert(serialized_player)
 
 
 class ChargeState:
-    pass
+    def charge_player(self):
+        print(players_table.all())

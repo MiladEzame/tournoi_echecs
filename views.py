@@ -9,9 +9,9 @@ class ViewTournament:
 
     @classmethod
     def view_tournament_info(self, tournament):
-        print(tournament.name)
-        print(tournament.place)
-        print(tournament.tour_date)
+        print("Name : {}".format(tournament.name))
+        print("Place : {}".format(tournament.place))
+        print("Date : {}".format(tournament.tour_date))
 
 
 class ViewPlayers:
@@ -28,11 +28,11 @@ class ViewPlayers:
         counter = 1
         for player in players:
             print("\n*******PLAYER N°{}******".format(counter))
-            print(player.first_name)
-            print(player.last_name)
-            print(player.gender)
-            print(player.date_birth)
-            print(player.ranking)
+            print("First Name : {}".format(player.first_name))
+            print("Last Name : {}".format(player.last_name))
+            print("Gender : {}".format(player.gender))
+            print("Date of birth : {}".format(player.date_birth))
+            print("Ranking : {}".format(player.ranking))
             counter += 1
 
 
