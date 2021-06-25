@@ -1,6 +1,3 @@
-from datetime import datetime
-
-
 class Player:
 
     def __init__(self, first_name, last_name, date_birth):
@@ -136,7 +133,7 @@ class Tournament:
 
     @property
     def tour_date(self):
-        return datetime.strptime(self._tour_date, "%d/%m/%Y")
+        return self._tour_date
 
     @property
     def rounds(self):
