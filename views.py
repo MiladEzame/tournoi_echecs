@@ -1,14 +1,19 @@
 class ViewTournament:
 
     @classmethod
-    # revoir classmethod OPC
     def tournament_input(self, tournament):
+        """
+            Input for the tournament informations
+        """
         tournament.name = input("What is the name of the tournament? ")
         tournament.place = input("At what place ? ")
         tournament.tour_date = input("At what date ? ")
 
     @classmethod
     def view_tournament_info(self, tournament):
+        """
+            Output of the tournament informations
+        """
         print("Name : {}".format(tournament.name))
         print("Place : {}".format(tournament.place))
         print("Date : {}".format(tournament.tour_date))
@@ -18,6 +23,9 @@ class ViewPlayers:
 
     @classmethod
     def player_info(self, player):
+        """
+            Input for the players informations
+        """
         player.first_name = input(str("Player's first name ?"))
         player.last_name = input(str("Player's last name ?"))
         player.date_birth = input("Date of birth ?")
@@ -25,6 +33,9 @@ class ViewPlayers:
 
     @classmethod
     def view_players_info(self, players):
+        """
+            Output for the players informations
+        """
         counter = 1
         for player in players:
             print("\n*******PLAYER N°{}******".format(counter))
@@ -38,23 +49,21 @@ class ViewPlayers:
 
 class ViewMenu:
 
-    """
-    def Menu(choice):
-        play = 1
-        while play == 1:
-            print("Hello and Welcome to The Anual Chess tournament !")
-            print("What would you like to do?")
-            choice = int(input("To create a tournament and play press 1
-            To view the results press 2
+    @classmethod
+    def Starting_Menu(self):
+        """
+            Choice input for the Main menu
+        """
+        print("What would you like to do?")
+        choice = int(input("""
+            To create a tournament with random players press 1
+            To create a tournament with new players press 2
             To view the players press 3
-            To view the tournament information press 4
-            To exit press 0 "))
-            if choice == 1:
-                new_players = UserManagement()
-                new_players.create_players()
-            elif choice == 0:
-                exit
-    """
+            To view all the tournaments informations press 4
+            To START the tournament press 5
+            To exit press 0\n
+            Your Choice : """))
+        return choice
 
 
 class ViewRanking:

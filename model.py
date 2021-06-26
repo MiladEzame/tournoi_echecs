@@ -49,11 +49,17 @@ class Player:
         self._gender = new_gender
 
     def __repr__(self):
+        """
+            Returns readable Player informations
+        """
         return repr("""Player : {} {} - Ranking : {} """
                     .format(self.first_name, self.last_name, self.ranking))
 
     @ranking.setter
     def ranking(self, new_ranking):
+        """
+            Makes sure the ranking is a positive number
+        """
         if isinstance(new_ranking, int):
             if new_ranking >= 0:
                 self._ranking = new_ranking
@@ -169,6 +175,9 @@ class Tournament:
 
     @time_control.setter
     def time_control(self):
+        """
+            Proposes different game options
+        """
         choice = input("What kind of game would you like to play ?")
         print("1 = Bullet / 2 = Blitz / 3 = Quick Move")
         if choice == 1:

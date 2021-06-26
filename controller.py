@@ -1,4 +1,4 @@
-from views import ViewPlayers, ViewTournament
+from views import ViewMenu, ViewPlayers, ViewTournament
 from model import Tournament, Player
 from tinydb import TinyDB
 db = TinyDB("db.json")
@@ -29,6 +29,10 @@ class UserManagement:
         self._player = new_player
 
     def create_players(self):
+        """
+            Creates players by typing their informations
+            + saves them in the Database
+        """
         i = 1
         save = SaveState()
         players_table.truncate()
@@ -51,11 +55,18 @@ class UserManagement:
         PairManagement.generate_pairs(self, self._players)
 
     def view_players(self):
+        """
+            Shows players saved in database
+        """
         charge = ChargeState()
         charge.charge_player()
         # ViewPlayers.view_players_info(self._players)
 
     def player_from_file(self):
+        """
+            Creates players from a file (random_players.txt)
+            + saves them in database
+        """
         players = [line.split(';') for line in open("random_players.txt")]
         save = SaveState()
         players_table.truncate()
@@ -76,6 +87,7 @@ class UserManagement:
             }
             i = i + 1
             save.save_player(serialized_player)
+        PairManagement.generate_pairs(self, new_players)
         return new_players
 
 
@@ -92,8 +104,10 @@ class TournamentManagement:
         self._tournament = new_tournament
 
     def create_new_tournament(self):
+        """
+            creates new tournament and save it in the database
+        """
         save = SaveState()
-        tournaments_table.truncate()
         ViewTournament.tournament_input(self.tournament)
         serialized_tournament = {
             "Name": self.tournament.name,
@@ -103,6 +117,9 @@ class TournamentManagement:
         save.save_tournament(serialized_tournament)
 
     def view_tournament_info(self):
+        """
+            Charges tournament info in the database
+        """
         charge = ChargeState()
         charge.charge_tournament()
         # ViewTournament.view_tournament_info(self.tournament)
@@ -129,8 +146,44 @@ class PairManagement:
         print("Players on first group : {}".format(first_half))
         print("Players on second group : {}".format(second_half))
 
-    def sort_pairs(self):
+    def sort_players_ranking(self, first_half, second_half):
         pass
+
+    def sort_players_points(self):
+        pass
+
+
+class MenuManagement:
+    tourney = TournamentManagement()
+    players = UserManagement()
+
+    def main_menu(self):
+        """
+            Shows main menu in an infinite loop to be able to choose
+            between the different options until 0 is pressed
+        """
+        choice = 1
+        print("Hello and Welcome to The Annual Chess tournament !")
+        while choice != 0:
+            choice = ViewMenu.Starting_Menu()
+            if choice == 1:
+                self.tourney.create_new_tournament()
+                self.players.player_from_file()
+            elif choice == 2:
+                self.tourney.create_new_tournament()
+                self.players.create_players()
+            elif choice == 3:
+                self.players.view_players()
+            elif choice == 4:
+                self.tourney.view_tournament_info()
+            elif choice == 5:
+                pass
+            elif choice == 0:
+                print("You chose to leave the tournament management. GoodBye.")
+                exit
+            else:
+                print("You didn't make a valid choice.")
+                raise TypeError("Must be a valid number")
 
 
 class ScoreManagement:
@@ -139,15 +192,29 @@ class ScoreManagement:
 
 class SaveState:
     def save_player(self, serialized_player):
+        """
+            Save players in the database
+        """
         players_table.insert(serialized_player)
 
     def save_tournament(self, serialized_tournament):
+        """
+            Save tournament in the database
+        """
         tournaments_table.insert(serialized_tournament)
 
 
 class ChargeState:
     def charge_player(self):
-        print(players_table.all())
+        """
+            Load players in the database
+        """
+        for player in players_table:
+            print(player)
 
     def charge_tournament(self):
-        print(tournaments_table.all())
+        """
+            Load players in the database
+        """
+        for tourney in tournaments_table:
+            print(tourney)
