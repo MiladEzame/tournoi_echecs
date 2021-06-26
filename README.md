@@ -1,6 +1,6 @@
 # Tournoi Echecs 
 
-**Version 1.0**
+**Version 1.2**
 
 
 # Project Configuration
@@ -61,20 +61,40 @@ You can run the file by using the following command :
 
 ## Important information about the differents files 
 
-- Joueurs.py
+- model.py
 	
-	This file is a class which contains all the information needed to define a player.
-	It also has the different methods associated to activities that can be done by a player.
+	This file contains all the different classes that allow us to create different instances of 
+	players, tournaments, rounds and matches.
 
-- Tournoi.py
+- controller.py
 	
-	This file is a class which contains all the information needed to define a player. 
-	It also has the different methods associated to activites that can be done during a tournament.
+	This file makes the connexion between the views (what is seen by the user and what allows him
+	to interract with the program), the model and is the main file that dictates how the whole 
+	program will run.
 	
 - jeu.py
 	
-	This file contains the script that has all the different steps of the tournament. It is the file 
-	that is going to unfold the whole tournament's process.
+	This is the main file that launches the program.
+
+- views.py
+	
+	This file allows the interaction between the user and the program. The user can use inputs to
+	communicate with the program and receives outputs as answers.
+
+- db.json
+	
+	This file stores all the information about our players and tournaments. It is the database that
+	is used to store all the informations.
+
+- random_players.txt
+	
+	This is a file that allows the creation of 8 random players and their informations if the program
+	needs to be tested quickly. 
+
+- requirements.txt
+	
+	This file contains all the modules needed to run this program properly. You can use it as described
+	in the install requirements file section.
 
 ## Contributors 
 
