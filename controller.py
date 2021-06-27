@@ -122,11 +122,9 @@ class TournamentManagement:
         """
         charge = ChargeState()
         charge.charge_tournament()
-        # ViewTournament.view_tournament_info(self.tournament)
 
 
 class PairManagement:
-
     def __init__(self):
         self._all_players = []
 
@@ -139,15 +137,29 @@ class PairManagement:
         self._all_players = all_new_players
 
     def generate_pairs(self, all_players):
+        """
+            Generate the pair of players to run the tournament
+            the pairs are generated with the swiss sort method
+        """
         lenght = len(all_players)
         middle_index = lenght//2
         first_half = all_players[:middle_index]
         second_half = all_players[middle_index:]
         print("Players on first group : {}".format(first_half))
         print("Players on second group : {}".format(second_half))
+        PairManagement.sort_players_ranking(self, middle_index, first_half,
+                                            second_half)
 
-    def sort_players_ranking(self, first_half, second_half):
-        pass
+    def sort_players_ranking(self, middle_index, first_half, second_half):
+        all_pairs = []
+        i = 0
+        score = 0
+        while i < middle_index:
+            pair_player = ((first_half[i], score),
+                           (second_half[i], score))
+            i = i + 1
+            all_pairs.append(pair_player)
+        print(all_pairs)
 
     def sort_players_points(self):
         pass
@@ -177,6 +189,8 @@ class MenuManagement:
             elif choice == 4:
                 self.tourney.view_tournament_info()
             elif choice == 5:
+                pass
+            elif choice == 6:
                 pass
             elif choice == 0:
                 print("You chose to leave the tournament management. GoodBye.")

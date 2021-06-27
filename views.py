@@ -61,6 +61,7 @@ class ViewMenu:
             To view the players press 3
             To view all the tournaments informations press 4
             To START the tournament press 5
+            To change the ranking of a player press 6 :
             To exit press 0\n
             Your Choice : """))
         return choice

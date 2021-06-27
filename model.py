@@ -78,8 +78,6 @@ class Round:
         self._matchs = []
         self._players = []
         self._resultats = []
-        self._match = (self._players, self._resultats)
-        # faire un tuple pour essayer de hasher?
 
     @property
     def matchs(self):
@@ -187,6 +185,10 @@ class Tournament:
         else:
             return "Quick move Game !"
 
+    def __repr__(self):
+        return repr("""Name : {} - Place : {} - Date : {} """
+                    .format(self.name, self.place, self.tour_date))
+
 
 class Match:
     def __init__(self):
@@ -199,7 +201,6 @@ class Match:
         self._unique_match = (self._players, self._scores)
         # match composed of a list of players, and a list of scores
         self._matchs = []
-        print("Le match a débuté !\n")
 
     @property
     def players(self):
@@ -211,7 +212,15 @@ class Match:
 
     @property
     def matchs(self):
-        return self.matchs
+        return self._matchs
+
+    @property
+    def scores(self):
+        return self._scores
+
+    @scores.setter
+    def scores(self, new_scores):
+        self._scores = new_scores
 
     @players.setter
     def players(self, new_players):
