@@ -159,7 +159,9 @@ class PairManagement:
                            (second_half[i], score))
             i = i + 1
             all_pairs.append(pair_player)
-        print(all_pairs)
+        print("\nHere are the pairs generated :")
+        for pairs in all_pairs:
+            print(pairs)
 
     def sort_players_points(self):
         pass
