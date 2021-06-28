@@ -75,6 +75,7 @@ class Round:
         """
             Constructor, creating a new round
         """
+        self._name = "Round 1"
         self._matchs = []
         self._players = []
         self._resultats = []
@@ -94,6 +95,14 @@ class Round:
     @property
     def match(self):
         return self._match
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, new_name):
+        self._name = new_name
 
     @matchs.setter
     def matchs(self, new_matchs):

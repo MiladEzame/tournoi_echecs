@@ -73,7 +73,3 @@ class ViewRanking:
 
 class ViewPairs:
     pass
-
-
-class ViewReports:
-    pass

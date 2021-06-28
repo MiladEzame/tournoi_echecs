@@ -1,5 +1,5 @@
 from views import ViewMenu, ViewPlayers, ViewTournament
-from model import Tournament, Player
+from model import Tournament, Player, Match, Round
 from tinydb import TinyDB
 db = TinyDB("db.json")
 players_table = db.table("players")
@@ -124,8 +124,54 @@ class TournamentManagement:
         charge.charge_tournament()
 
 
+class RoundManagement():
+    def __init__(self):
+        self._matchs = []
+        self._round = Round()
+
+    @property
+    def matchs(self):
+        return self._matchs
+
+    @property
+    def round(self):
+        return self._round
+
+    @matchs.setter
+    def matchs(self, new_matchs):
+        self._matchs = new_matchs
+
+    @round.setter
+    def round(self, new_round):
+        self._round = new_round
+
+    def round_naming(self, number):
+        self.round.name = "Round {}".format(number)
+
+    def add_score(self):
+        pass
+
+    def results_input(self, matchs):
+        """
+            Allows us to set the winner of a match in a
+            given round and adds points accordingly
+        """
+        for match in matchs:
+            results = input("""
+            Who won this round ?
+            1: Player {}  |  2: Player {}  |  3: Tie
+            """)
+            if results == 1:
+                pass
+            elif results == 2:
+                pass
+            else:
+                pass
+
+
 class PairManagement:
     def __init__(self):
+        self._match = Match()
         self._all_players = []
 
     @property
@@ -135,6 +181,14 @@ class PairManagement:
     @all_players.setter
     def all_players(self, all_new_players):
         self._all_players = all_new_players
+
+    @property
+    def match(self):
+        return self._match
+
+    @match.setter
+    def match(self, new_match):
+        self._match = new_match
 
     def generate_pairs(self, all_players):
         """
@@ -147,10 +201,12 @@ class PairManagement:
         second_half = all_players[middle_index:]
         print("Players on first group : {}".format(first_half))
         print("Players on second group : {}".format(second_half))
-        PairManagement.sort_players_ranking(self, middle_index, first_half,
-                                            second_half)
 
     def sort_players_ranking(self, middle_index, first_half, second_half):
+        """
+            Sort players according to their rankings
+            NEEDS TO BE DONE WITH MATCH OBJECT SO NOT USED.
+        """
         all_pairs = []
         i = 0
         score = 0
@@ -162,6 +218,8 @@ class PairManagement:
         print("\nHere are the pairs generated :")
         for pairs in all_pairs:
             print(pairs)
+        [print(x[0][1]) for x in all_pairs]
+        [print(x[1][1]) for x in all_pairs]
 
     def sort_players_points(self):
         pass
