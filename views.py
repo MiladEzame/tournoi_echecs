@@ -1,3 +1,6 @@
+import os
+
+
 class ViewTournament:
 
     @classmethod
@@ -46,30 +49,57 @@ class ViewPlayers:
             print("Ranking : {}".format(player.ranking))
             counter += 1
 
+    def view_players_points(self, round):
+        print("Here are the points of all the players :")
+        for pairs in round:
+            print(pairs)
+
 
 class ViewMenu:
 
     @classmethod
-    def Starting_Menu(self):
+    def starting_Menu(self):
         """
             Choice input for the Main menu
         """
-        print("What would you like to do?")
-        choice = int(input("""
+        os.system("cls")
+        print("**MAIN MENU **\nWhat would you like to do?")
+        choice = input("""
             To create a tournament with random players press 1
             To create a tournament with new players press 2
             To view the players press 3
             To view all the tournaments informations press 4
             To START the tournament press 5
-            To change the ranking of a player press 6 :
             To exit press 0\n
+            Your Choice : """)
+        return choice
+
+    @classmethod
+    def round_menu(self):
+        """
+            Choice input for the round menu
+        """
+        os.system("cls")
+        print("**ROUND MENU **\nWhat would you like to do?")
+        choice = int(input("""
+            To view the pairs press 1
+            To change the ranking of a player press 2
+            To view the players press 3
+            To view the points of the players press 4
+            To get to next round press 0\n
             Your Choice : """))
         return choice
 
 
 class ViewRanking:
-    pass
+    @classmethod
+    def rank(self, players):
+        print(players)
 
 
 class ViewPairs:
-    pass
+    @classmethod
+    def view_generated_pairs(self, generated_pairs):
+        print("Here are the generated pairs :")
+        for elt in generated_pairs:
+            print(elt)

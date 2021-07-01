@@ -1,12 +1,12 @@
 class Player:
 
-    def __init__(self, first_name, last_name, date_birth):
+    def __init__(self):
         """
             Constructor, creating a new player
         """
-        self._first_name = first_name
-        self._last_name = last_name
-        self._date_birth = date_birth
+        self._first_name = "first_name"
+        self._last_name = "last_name"
+        self._date_birth = "date_birth"
         # enregister sous format date
         self._gender = ""
         self._ranking = 0
@@ -52,8 +52,8 @@ class Player:
         """
             Returns readable Player informations
         """
-        return repr("""Player : {} {} - Ranking : {} """
-                    .format(self.first_name, self.last_name, self.ranking))
+        return repr("""Player {} : {} {}"""
+                    .format(self.ranking, self.first_name, self.last_name))
 
     @ranking.setter
     def ranking(self, new_ranking):
@@ -204,41 +204,45 @@ class Match:
         """
             Constructor, creating a new match
         """
-        self._players = []
-        self._scores = []
+        self._player = Player()
+        self._score = 0
         # add player instances
-        self._unique_match = (self._players, self._scores)
-        # match composed of a list of players, and a list of scores
-        self._matchs = []
+        self._unique_match = ([self._player, self._score],
+                              [self._player, self._score])
+        self._round = []
 
     @property
-    def players(self):
-        return self.players
+    def player(self):
+        return self._player
 
     @property
     def unique_match(self):
         return self._unique_match
 
     @property
-    def matchs(self):
-        return self._matchs
+    def round(self):
+        return self._round
 
     @property
-    def scores(self):
-        return self._scores
+    def score(self):
+        return self._score
 
-    @scores.setter
-    def scores(self, new_scores):
-        self._scores = new_scores
+    @score.setter
+    def scores(self, new_score):
+        self._score = new_score
 
-    @players.setter
-    def players(self, new_players):
-        self._players = new_players
+    @player.setter
+    def players(self, new_player):
+        self._player = new_player
 
     @unique_match.setter
     def match(self, new_match):
         self._match = new_match
 
-    @matchs.setter
-    def matchs(self, new_matchs):
-        self._matchs = new_matchs
+    @round.setter
+    def round(self, new_round):
+        self._round = new_round
+
+    @unique_match.setter
+    def unique_match(self, new_unique_match):
+        self._unique_match = new_unique_match

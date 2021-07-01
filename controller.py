@@ -1,6 +1,7 @@
-from views import ViewMenu, ViewPlayers, ViewTournament
+from views import ViewMenu, ViewPairs, ViewPlayers, ViewTournament
 from model import Tournament, Player, Match, Round
 from tinydb import TinyDB
+import os
 db = TinyDB("db.json")
 players_table = db.table("players")
 tournaments_table = db.table("tournaments")
@@ -9,8 +10,8 @@ tournaments_table = db.table("tournaments")
 class UserManagement:
     def __init__(self):
         self._players = []
-        self._player = Player(first_name="", last_name="",
-                              date_birth="11/11/1111")
+        self._player = Player()
+        self.match = Match()
 
     @property
     def players(self):
@@ -36,10 +37,12 @@ class UserManagement:
         i = 1
         save = SaveState()
         players_table.truncate()
-        for new_player in range(1, 3):
+        for new_player in range(1, 9):
             ViewPlayers.player_info(self.player)
-            new_player = Player(self.player.first_name, self.player.last_name,
-                                self.player.date_birth)
+            new_player = Player()
+            new_player.first_name = self.player.first_name
+            new_player.last_name = self.player.last_name
+            new_player.date_birth = self.player.date_birth
             new_player.gender = self.player.gender
             new_player.ranking = i
             i = i + 1
@@ -52,7 +55,7 @@ class UserManagement:
                 "ranking": new_player.ranking
             }
             save.save_player(serialized_player)
-        PairManagement.generate_pairs(self, self._players)
+        return self.players
 
     def view_players(self):
         """
@@ -67,17 +70,18 @@ class UserManagement:
             Creates players from a file (random_players.txt)
             + saves them in database
         """
-        players = [line.split(';') for line in open("random_players.txt")]
+        players_file = [line.split(';') for line in open("random_players.txt")]
         save = SaveState()
         players_table.truncate()
-        # print(players)
         i = 1
-        new_players = []
-        for lists in players:
-            all_players = Player(lists[0], lists[1], lists[2])
+        for lists in players_file:
+            all_players = Player()
+            all_players.first_name = lists[0]
+            all_players.last_name = lists[1]
+            all_players.date_birth = lists[2]
             all_players.gender = lists[3]
             all_players.ranking = i
-            new_players.append(all_players)
+            self.players.append(all_players)
             serialized_player = {
                 "first_name": all_players.first_name,
                 "last_name": all_players.last_name,
@@ -87,8 +91,26 @@ class UserManagement:
             }
             i = i + 1
             save.save_player(serialized_player)
-        PairManagement.generate_pairs(self, new_players)
-        return new_players
+        return self.players
+
+    def change_ranking(self):
+        players = self.players
+        for player in players:
+            print(player)
+        change = int(input("""
+        What player s ranking would you like to change ?
+        Enter the number according the current ranking of the player.
+        """))
+        for i in range(1, 9):
+            if change == i:
+                return players[i-1]
+            else:
+                pass
+
+    def set_ranking(self):
+        player = UserManagement.change_ranking(self)
+        new_ranking = int(input("What is the new ranking for this player?"))
+        player.ranking = new_ranking
 
 
 class TournamentManagement:
@@ -127,7 +149,9 @@ class TournamentManagement:
 class RoundManagement():
     def __init__(self):
         self._matchs = []
+        self._match = Match()
         self._round = Round()
+        self._players = []
 
     @property
     def matchs(self):
@@ -137,9 +161,25 @@ class RoundManagement():
     def round(self):
         return self._round
 
+    @property
+    def match(self):
+        return self._match
+
+    @property
+    def players(self):
+        return self._players
+
+    @players.setter
+    def players(self, new_players):
+        self._players = new_players
+
     @matchs.setter
     def matchs(self, new_matchs):
         self._matchs = new_matchs
+
+    @match.setter
+    def match(self, new_match):
+        self._match = new_match
 
     @round.setter
     def round(self, new_round):
@@ -148,43 +188,56 @@ class RoundManagement():
     def round_naming(self, number):
         self.round.name = "Round {}".format(number)
 
-    def add_score(self):
-        pass
-
-    def results_input(self, matchs):
+    def results_input(self, all_players, nb, rd):
         """
             Allows us to set the winner of a match in a
             given round and adds points accordingly
+            or match in matchs:
         """
-        for match in matchs:
-            results = input("""
-            Who won this round ?
-            1: Player {}  |  2: Player {}  |  3: Tie
-            """)
-            if results == 1:
-                pass
-            elif results == 2:
-                pass
-            else:
-                pass
+        results = input("""
+        Who won this round ?
+        {}  |  {}  |  Tie : 3
+        """.format(all_players[nb], all_players[nb+1]))
+        if int(results) == 1:
+            print("RD {}".format(rd))
+            print("NB {}".format(nb))
+            self.match.round[rd][0][1] += 1
+        elif int(results) == 2:
+            self.match.round[rd][1][1] += 1
+        elif int(results) == 3:
+            self.match.round[rd][0][1] += 0.5
+            self.match.round[rd][1][1] += 0.5
+        else:
+            print("You didn't make a valid choice.")
+            input("\nPress any key to return to menu.")
+            MenuManagement.round_menu(self, all_players)
 
 
 class PairManagement:
     def __init__(self):
         self._match = Match()
-        self._all_players = []
+        self._players = []
+        self._scores = []
 
     @property
-    def all_players(self):
-        return self._all_players
-
-    @all_players.setter
-    def all_players(self, all_new_players):
-        self._all_players = all_new_players
+    def players(self):
+        return self._players
 
     @property
     def match(self):
         return self._match
+
+    @property
+    def scores(self):
+        return self._scores
+
+    @scores.setter
+    def scores(self, new_scores):
+        self._scores = new_scores
+
+    @players.setter
+    def all_players(self, all_new_players):
+        self._players = all_new_players
 
     @match.setter
     def match(self, new_match):
@@ -192,34 +245,42 @@ class PairManagement:
 
     def generate_pairs(self, all_players):
         """
-            Generate the pair of players to run the tournament
+            Generate the pair of players to run the tournament,
             the pairs are generated with the swiss sort method
         """
-        lenght = len(all_players)
-        middle_index = lenght//2
-        first_half = all_players[:middle_index]
-        second_half = all_players[middle_index:]
-        print("Players on first group : {}".format(first_half))
-        print("Players on second group : {}".format(second_half))
+        player = 0
+        for i in range(0, 4):
+            self.match.unique_match = ([all_players[player], 0],
+                                       [all_players[player+1], 0])
+            self.match.round.append(self.match.unique_match)
+            player = player + 2
+        ViewPairs.view_generated_pairs(self.match.round)
+        return self.match.round
 
-    def sort_players_ranking(self, middle_index, first_half, second_half):
+    def start_round(self, all_players):
         """
-            Sort players according to their rankings
-            NEEDS TO BE DONE WITH MATCH OBJECT SO NOT USED.
+            Creates 4 rounds for every tournament and all the
+            methods will be called from this one.
+            This will generate 4 rounds in which pairs will be
+            sorted and generated according to their ranks/scores
         """
-        all_pairs = []
-        i = 0
-        score = 0
-        while i < middle_index:
-            pair_player = ((first_half[i], score),
-                           (second_half[i], score))
-            i = i + 1
-            all_pairs.append(pair_player)
-        print("\nHere are the pairs generated :")
-        for pairs in all_pairs:
-            print(pairs)
-        [print(x[0][1]) for x in all_pairs]
-        [print(x[1][1]) for x in all_pairs]
+        nmb_of_rounds = 1
+        self.match.round = PairManagement.generate_pairs(self, all_players)
+        for nmb_of_rounds in range(1, 5):
+            print("\nROUND {}".format(nmb_of_rounds))
+            rd = 0
+            nb = 0
+            while rd < len(self.match.round):
+                print("MATCH {}".format(rd+1))
+                print(self.match.round[rd])
+                RoundManagement.results_input(
+                    self, all_players, nb, rd)
+                nb = nb + 2
+                rd = rd + 1
+            MenuManagement.round_menu(self, all_players)
+
+    def sort_players_ranking(self):
+        pass
 
     def sort_players_points(self):
         pass
@@ -228,6 +289,7 @@ class PairManagement:
 class MenuManagement:
     tourney = TournamentManagement()
     players = UserManagement()
+    match = Match()
 
     def main_menu(self):
         """
@@ -235,33 +297,57 @@ class MenuManagement:
             between the different options until 0 is pressed
         """
         choice = 1
-        print("Hello and Welcome to The Annual Chess tournament !")
+        print("Hello and Welcome to The Chess tournament !")
         while choice != 0:
-            choice = ViewMenu.Starting_Menu()
+            choice = int(ViewMenu.starting_Menu())
             if choice == 1:
                 self.tourney.create_new_tournament()
                 self.players.player_from_file()
+                input("\nPress any key to return to menu.")
             elif choice == 2:
                 self.tourney.create_new_tournament()
                 self.players.create_players()
+                input("\nPress any key to return to menu.")
             elif choice == 3:
+                os.system("cls")
                 self.players.view_players()
+                input("\nPress any key to return to menu.")
             elif choice == 4:
+                os.system("cls")
                 self.tourney.view_tournament_info()
+                input("\nPress any key to return to menu.")
             elif choice == 5:
-                pass
-            elif choice == 6:
-                pass
+                os.system("cls")
+                PairManagement.start_round(self.players, self.players.players)
+                input("\nPress any key to return to menu.")
             elif choice == 0:
                 print("You chose to leave the tournament management. GoodBye.")
                 exit
             else:
                 print("You didn't make a valid choice.")
-                raise TypeError("Must be a valid number")
+                input("\nPress any key to return to menu.")
+                self.main_menu()
 
-
-class ScoreManagement:
-    pass
+    def round_menu(self, all_players):
+        choice = 1
+        while choice != 0:
+            choice = ViewMenu.round_menu()
+            if choice == 1:
+                ViewPlayers.view_players_points(self, self.match.round)
+                input("\nPress any key to return to menu.")
+            elif choice == 2:
+                UserManagement.set_ranking(self)
+            elif choice == 3:
+                os.system("cls")
+                players_table.all()
+                ViewPlayers.view_players_info(all_players)
+                input("\nPress any key to return to menu.")
+            elif choice == 4:
+                os.system("cls")
+                ViewPlayers.view_players_points(self, self.match.round)
+                input("\nPress any key to return to menu.")
+            else:
+                exit
 
 
 class SaveState:
@@ -282,7 +368,9 @@ class ChargeState:
     def charge_player(self):
         """
             Load players in the database
+            # utiliser .all() pour tous les charger
         """
+        players_table.all()
         for player in players_table:
             print(player)
 
@@ -290,5 +378,6 @@ class ChargeState:
         """
             Load players in the database
         """
-        for tourney in tournaments_table:
-            print(tourney)
+        tournaments_table.all()
+        for tournament in tournaments_table:
+            print(tournament)
