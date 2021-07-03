@@ -75,7 +75,7 @@ class Round:
         """
             Constructor, creating a new round
         """
-        self._name = "Round 1"
+        self._name = "Round "
         self._matchs = []
         self._players = []
         self._resultats = []

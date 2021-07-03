@@ -58,6 +58,17 @@ You can run the file by using the following command :
 	```python 	
 	python jeu.py	
 	```
+## Generate a Flake 8 HTML Report :
+
+- Begin by installing the correct package :
+	```python 	
+	pip install flake8-html
+	```
+	
+	Then simply type this command line and a full report will be generated : 
+	```python 	
+	flake8 --format=html --htmldir=flake-report
+	```
 
 ## Important information about the differents files 
 

@@ -1,0 +1,8 @@
+Milad;Ezame;20/01/1994;M
+Michael;Rodriguez;16/04/1973;M
+Betty;Seibert;05/03/1947;F
+Paula;Mayo;18/06/1989;F
+Mary;Maloy;23/06/1994;F
+Jerry;Rich;09/03/1959;M
+Brian;Wynn;25/08/1985;M
+Anna;Evans;29/05/1986;F

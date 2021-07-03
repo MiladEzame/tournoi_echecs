@@ -13,5 +13,9 @@ if __name__ == "__main__":
     user.create_new_tournament()
     user.view_tournament_info()
     """
+    # FAIRE LES METHODES DE TRI
+    # REGLER LE PB DE RANKING DANS LE 2E MENU (loaded)
+    # AFFICHAGE DES ROUNDS PLUS PROPREMENT SI POSSIBLE
+    # GERER LES EXCEPTIONS
     menu = MenuManagement()
     menu.main_menu()
