@@ -252,10 +252,16 @@ class RoundManagement():
             given round and adds points accordingly
             or match in matchs:
         """
+        lenght = len(all_players)
+        middle_index = lenght//2
+        first_half = all_players[:middle_index]
+        second_half = all_players[middle_index:]
+        all_players = PairManagement.sort_players_ranking(self,
+                                                          all_players)
         results = input("""
         Who won this round ?
         {}  |  {}  |  Tie : 3
-        """.format(all_players[nb], all_players[nb+1]))
+        """.format(first_half[nb], second_half[nb]))
         if int(results) == 1:
             self.match.round[rd][0][1] += 1
         elif int(results) == 2:
@@ -314,25 +320,27 @@ class PairManagement:
             the pairs are generated with the swiss sort method
         """
         player = 0
+        lenght = len(all_players)
+        middle_index = lenght//2
+        first_half = all_players[:middle_index]
+        second_half = all_players[middle_index:]
+        for i in range(0, 4):
+            self.match.unique_match = ([first_half[player], 0],
+                                       [second_half[player], 0])
+            self.match.round.append(self.match.unique_match)
+            player = player + 1
+        ViewPairs.view_generated_pairs(self.match.round)
+        return self.match.round
+
+    def shuffle_pairs(self, match, all_players):
+        player = 0
         for i in range(0, 4):
             self.match.unique_match = ([all_players[player], 0],
                                        [all_players[player+1], 0])
             self.match.round.append(self.match.unique_match)
             player = player + 2
-        ViewPairs.view_generated_pairs(self.match.round)
-        return self.match.round
-
-    def shuffle_pairs(self, all_players):
-        player = 0
-        for i in range(0, 4):
-            if self.match.unique_match == ([all_players[player], 0],
-                                           [all_players[player+1], 0]):
-                self.match.unique_match = ([all_players[player], 0],
-                                           [all_players[player+2], 0])
-            self.match.round.append(self.match.unique_match)
-            player = player + 2
-        ViewPairs.view_generated_pairs(self.match.round)
-        return self.match.round
+        ViewPairs.view_generated_pairs(match.round)
+        return match.round
 
     def start_round(self, all_players):
         """
@@ -352,16 +360,16 @@ class PairManagement:
                                                               all_players)
             # self.match.round = PairManagement.sort_players_points(
             #    self, self.match.round)
-            print("TEST : {}".format(self.match.round))
+            print("test {}".format(self.match.round))
             while rd < len(self.match.round):
                 print("MATCH {}".format(rd+1))
                 print(self.match.round[rd])
                 RoundManagement.results_input(
                     self, all_players, nb, rd)
-                nb = nb + 2
+                nb = nb + 1
                 rd = rd + 1
-            all_players = PairManagement.sort_players_ranking(self,
-                                                              all_players)
+                all_players = PairManagement.sort_players_ranking(self,
+                                                                  all_players)
             RoundManagement.saving_round(self, self.match,
                                          nmb_of_rounds, all_players)
             MenuManagement.round_menu(self, all_players)
@@ -370,7 +378,9 @@ class PairManagement:
         return sorted(all_players, key=lambda player: player.ranking)
 
     def sort_players_points(self, round):
-        return sorted(round, key=lambda test: test[1][1])
+        sorted(round, key=lambda points: points[0][1])
+        sorted(round, key=lambda points: points[1][1])
+        return round
 
 
 class MenuManagement:

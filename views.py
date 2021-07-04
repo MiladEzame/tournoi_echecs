@@ -55,6 +55,7 @@ class ViewPlayers:
             at any given time
         """
         print("Here are the points of all the players :")
+        sorted(round, key=lambda pairs: pairs[0][1])
         for pairs in round:
             print("{} has {} points".format(pairs[0][0], pairs[0][1]))
             print("{} has {} points".format(pairs[1][0], pairs[1][1]))
@@ -79,11 +80,19 @@ class ViewPlayers:
             Show all the pairs through the round menu at any time
         """
         print("Here are all the pairs:")
-        nb = 1
-        for pairs in round:
-            print("Pair {} ---> {} vs {}".format(nb, pairs[0][0],
-                                                 pairs[1][0]))
+        nb = 0
+        cpt = 1
+        lenght = len(round)
+        middle_index = lenght//2
+        first_half = round[:middle_index]
+        second_half = round[middle_index:]
+        for i in range(0, 2):
+            print("Pair {} ---> {} vs {}".format(cpt, first_half[nb][0],
+                                                 second_half[nb][0]))
+            print("Pair {} ---> {} vs {}".format(cpt+1, first_half[nb][1],
+                                                 second_half[nb][1]))
             nb = nb + 1
+            cpt = cpt + 2
 
     def view_pairs_round(self, round):
         """
