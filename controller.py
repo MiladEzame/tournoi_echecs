@@ -101,6 +101,10 @@ class UserManagement:
         return self.players
 
     def change_ranking(self, all_players):
+        """
+            Shows all the players and lets us choose one
+            and change its ranking with set ranking method
+        """
         for player in all_players:
             print(player)
         change = int(input("""
@@ -114,6 +118,9 @@ class UserManagement:
                 pass
 
     def set_ranking(self, all_players):
+        """
+            Set the ranking of a chosen player
+        """
         player = UserManagement.change_ranking(self, all_players)
         new_ranking = int(input("What is the new ranking for this player?"))
         player.ranking = new_ranking
@@ -207,6 +214,8 @@ class RoundManagement():
             Changing the Players in string format to be able to save
             Then changing them back to Player format
         """
+        all_players = PairManagement.sort_players_ranking(self,
+                                                          all_players)
         save = SaveState()
         for players in match.round:
             players[0][0] = str(players[0][0])
@@ -313,6 +322,18 @@ class PairManagement:
         ViewPairs.view_generated_pairs(self.match.round)
         return self.match.round
 
+    def shuffle_pairs(self, all_players):
+        player = 0
+        for i in range(0, 4):
+            if self.match.unique_match == ([all_players[player], 0],
+                                           [all_players[player+1], 0]):
+                self.match.unique_match = ([all_players[player], 0],
+                                           [all_players[player+2], 0])
+            self.match.round.append(self.match.unique_match)
+            player = player + 2
+        ViewPairs.view_generated_pairs(self.match.round)
+        return self.match.round
+
     def start_round(self, all_players):
         """
             Creates 4 rounds for every tournament and all the
@@ -327,7 +348,11 @@ class PairManagement:
             print("\nROUND {}".format(nmb_of_rounds))
             rd = 0
             nb = 0
-            print(len(self.match.round))
+            all_players = PairManagement.sort_players_ranking(self,
+                                                              all_players)
+            # self.match.round = PairManagement.sort_players_points(
+            #    self, self.match.round)
+            print("TEST : {}".format(self.match.round))
             while rd < len(self.match.round):
                 print("MATCH {}".format(rd+1))
                 print(self.match.round[rd])
@@ -335,15 +360,17 @@ class PairManagement:
                     self, all_players, nb, rd)
                 nb = nb + 2
                 rd = rd + 1
+            all_players = PairManagement.sort_players_ranking(self,
+                                                              all_players)
             RoundManagement.saving_round(self, self.match,
                                          nmb_of_rounds, all_players)
             MenuManagement.round_menu(self, all_players)
 
-    def sort_players_ranking(self):
-        pass
+    def sort_players_ranking(self, all_players):
+        return sorted(all_players, key=lambda player: player.ranking)
 
-    def sort_players_points(self):
-        pass
+    def sort_players_points(self, round):
+        return sorted(round, key=lambda test: test[1][1])
 
 
 class MenuManagement:
@@ -399,6 +426,10 @@ class MenuManagement:
                 self.main_menu()
 
     def round_menu(self, all_players):
+        """
+            Shows the round menu in an infinite loop to be able to choose
+            between the different options until 7 is pressed
+        """
         choice = 1
         while choice != 0:
             choice = ViewMenu.round_menu()
@@ -407,13 +438,19 @@ class MenuManagement:
                 input("\nPress any key to return to menu.")
             elif choice == 2:
                 UserManagement.set_ranking(self, all_players)
+                all_players = PairManagement.sort_players_ranking(self,
+                                                                  all_players)
             elif choice == 3:
                 os.system("cls")
                 players_table.all()
+                all_players = PairManagement.sort_players_ranking(self,
+                                                                  all_players)
                 ViewPlayers.view_players_info(all_players)
                 input("\nPress any key to return to menu.")
             elif choice == 4:
                 os.system("cls")
+                all_players = PairManagement.sort_players_ranking(self,
+                                                                  all_players)
                 ViewPlayers.view_players_points(self, self.match.round)
                 input("\nPress any key to return to menu.")
             elif choice == 5:
@@ -431,6 +468,11 @@ class MenuManagement:
                 break
 
     def charged_round_menu(self, all_players):
+        """
+            Shows round menu with charged data in an infinite loop
+            to be able to choose between the different options
+            until 7 is pressed
+        """
         choice = 1
         while choice != 0:
             choice = ViewMenu.round_menu()
@@ -514,8 +556,7 @@ class ChargeState:
             Load rounds in the database
         """
         round_table.all()
-        for rounds in round_table:
-            print(rounds)
+        ViewPairs.view_loaded_round_table(self, round_table)
 
     def view_charged_pairs_round(self):
         round_table.all()

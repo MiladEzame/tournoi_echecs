@@ -50,13 +50,20 @@ class ViewPlayers:
             counter += 1
 
     def view_players_points(self, round):
+        """
+            Shows the points of all the players through the round menu
+            at any given time
+        """
         print("Here are the points of all the players :")
-        nb = 0
         for pairs in round:
-            print("{} has {} points".format(pairs[nb][nb], pairs[nb][1]))
-            print("{} has {} points".format(pairs[nb+1][nb], pairs[nb+1][1]))
+            print("{} has {} points".format(pairs[0][0], pairs[0][1]))
+            print("{} has {} points".format(pairs[1][0], pairs[1][1]))
 
     def view_players_points_table(self, round):
+        """
+            Shows the points of all the players loaded through the round menu
+            at any given time
+        """
         print("Here are the points of all the players :")
         nb = 0
         for rounds in round:
@@ -68,19 +75,28 @@ class ViewPlayers:
                 nb = nb + 1
 
     def view_pairs(self, round):
+        """
+            Show all the pairs through the round menu at any time
+        """
         print("Here are all the pairs:")
         nb = 1
         for pairs in round:
-            print("Pair {} : {} vs {}".format(nb, pairs[0][0],
-                                              pairs[1][0]))
+            print("Pair {} ---> {} vs {}".format(nb, pairs[0][0],
+                                                 pairs[1][0]))
             nb = nb + 1
 
     def view_pairs_round(self, round):
+        """
+            Shows the pairs of the round
+        """
         print("Here are all the pairs of the round:")
         for pairs in round:
             print(pairs)
 
     def view_players_loaded_table(self, players):
+        """
+            Shows all the loaded players from the charged game
+        """
         nb = 1
         print("Loaded players :")
         for player in players:
@@ -122,7 +138,7 @@ class ViewMenu:
         os.system("cls")
         print("**ROUND MENU **\nWhat would you like to do?")
         choice = int(input("""
-            To view the pairs press 1
+            To view the pairs for the round press 1
             To change the ranking of a player press 2
             To view the players press 3
             To view the points of the players press 4
@@ -134,20 +150,20 @@ class ViewMenu:
         return choice
 
 
-class ViewRanking:
-    @classmethod
-    def rank(self, players):
-        print(players)
-
-
 class ViewPairs:
     @classmethod
     def view_generated_pairs(self, generated_pairs):
+        """
+            Shows the first generated pairs
+        """
         print("Here are the pairs :")
         for elt in generated_pairs:
             print(elt)
 
     def view_loaded_pairs_table(self, round):
+        """
+            View all the pairs loaded in the previous round
+        """
         nb = 0
         print("Here are the pairs :")
         for rounds in round:
@@ -155,4 +171,18 @@ class ViewPairs:
                 if nb == 4:
                     break
                 print("{} vs {}".format(pairs[0][0], pairs[1][0]))
+                nb = nb + 1
+
+    def view_loaded_round_table(self, round):
+        """
+            View all the pairs loaded in the previous round
+        """
+        nb = 0
+        for rounds in round:
+            print(rounds.get("Name"))
+            for pairs in rounds.get("Pairs"):
+                if nb == 4:
+                    exit
+                print("{} - {} pts and {} - {} pts".format(
+                    pairs[0][0], pairs[0][1], pairs[1][0], pairs[1][1]))
                 nb = nb + 1
