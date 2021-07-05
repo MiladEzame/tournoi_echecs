@@ -246,29 +246,25 @@ class RoundManagement():
         charge = ChargeState()
         charge.view_charged_round()
 
-    def results_input(self, all_players, nb, rd):
+    def results_input(self, all_players, nb, rd, round):
         """
             Allows us to set the winner of a match in a
             given round and adds points accordingly
             or match in matchs:
         """
-        lenght = len(all_players)
-        middle_index = lenght//2
-        first_half = all_players[:middle_index]
-        second_half = all_players[middle_index:]
         all_players = PairManagement.sort_players_ranking(self,
                                                           all_players)
         results = input("""
         Who won this round ?
-        {}  |  {}  |  Tie : 3
-        """.format(first_half[nb], second_half[nb]))
+        FIRST_PLAYER : 1  |  SECOND PLAYER : 2  |  Tie : 3
+        """)
         if int(results) == 1:
-            self.match.round[rd][0][1] += 1
+            round[rd][0][1] += 1
         elif int(results) == 2:
-            self.match.round[rd][1][1] += 1
+            round[rd][1][1] += 1
         elif int(results) == 3:
-            self.match.round[rd][0][1] += 0.5
-            self.match.round[rd][1][1] += 0.5
+            round[rd][0][1] += 0.5
+            round[rd][1][1] += 0.5
         else:
             print("You didn't make a valid choice.")
             input("\nPress any key to return to menu.")
@@ -332,16 +328,6 @@ class PairManagement:
         ViewPairs.view_generated_pairs(self.match.round)
         return self.match.round
 
-    def shuffle_pairs(self, match, all_players):
-        player = 0
-        for i in range(0, 4):
-            self.match.unique_match = ([all_players[player], 0],
-                                       [all_players[player+1], 0])
-            self.match.round.append(self.match.unique_match)
-            player = player + 2
-        ViewPairs.view_generated_pairs(match.round)
-        return match.round
-
     def start_round(self, all_players):
         """
             Creates 4 rounds for every tournament and all the
@@ -356,16 +342,16 @@ class PairManagement:
             print("\nROUND {}".format(nmb_of_rounds))
             rd = 0
             nb = 0
-            all_players = PairManagement.sort_players_ranking(self,
-                                                              all_players)
-            # self.match.round = PairManagement.sort_players_points(
-            #    self, self.match.round)
-            print("test {}".format(self.match.round))
+            # all_players = PairManagement.sort_players_ranking(self,
+            #                                                  all_players)
+            self.match.round = PairManagement.sort_players_points(
+               self, self.match.round)
+            print("All the opponents {}".format(self.match.round))
             while rd < len(self.match.round):
                 print("MATCH {}".format(rd+1))
                 print(self.match.round[rd])
                 RoundManagement.results_input(
-                    self, all_players, nb, rd)
+                    self, all_players, nb, rd, self.match.round)
                 nb = nb + 1
                 rd = rd + 1
                 all_players = PairManagement.sort_players_ranking(self,
@@ -373,13 +359,26 @@ class PairManagement:
             RoundManagement.saving_round(self, self.match,
                                          nmb_of_rounds, all_players)
             MenuManagement.round_menu(self, all_players)
+        print(self.match.round)
 
     def sort_players_ranking(self, all_players):
         return sorted(all_players, key=lambda player: player.ranking)
 
     def sort_players_points(self, round):
-        sorted(round, key=lambda points: points[0][1])
-        sorted(round, key=lambda points: points[1][1])
+        """
+            Sort players by their number of points
+        """
+        nb = 0
+        first_half = []
+        second_half = []
+        for half in round:
+            first_half.append(half[0])
+            second_half.append(half[1])
+        for pair in round:
+            first_half = sorted(first_half, key=lambda points: points[1])
+            second_half = sorted(second_half, key=lambda points: points[1])
+            round[nb] = (first_half[nb], second_half[nb])
+            nb = nb + 1
         return round
 
 

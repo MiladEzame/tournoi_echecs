@@ -65,7 +65,7 @@ class ViewPlayers:
             Shows the points of all the players loaded through the round menu
             at any given time
         """
-        print("Here are the points of all the players :")
+        print("Here are the points of the players according to their ranking:")
         nb = 0
         for rounds in round:
             for pairs in rounds.get("Pairs"):
