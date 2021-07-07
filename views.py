@@ -174,12 +174,12 @@ class ViewPairs:
             View all the pairs loaded in the previous round
         """
         nb = 0
-        print("Here are the pairs :")
         for rounds in round:
+            print(rounds.get("Name"))
             for pairs in rounds.get("Pairs"):
                 if nb == 4:
-                    break
-                print("{} vs {}".format(pairs[0][0], pairs[1][0]))
+                    exit
+                print("{} vs {} ".format(pairs[0][0], pairs[1][0]))
                 nb = nb + 1
 
     def view_loaded_round_table(self, round):
